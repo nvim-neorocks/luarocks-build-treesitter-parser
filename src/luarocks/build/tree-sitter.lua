@@ -1,3 +1,4 @@
+---@diagnostic disable: inject-field
 local fs = require("luarocks.fs")
 local builtin = require("luarocks.build.builtin")
 
@@ -38,8 +39,17 @@ function tree_sitter.run(rockspec, no_install)
 		return nil,
 			"'tree-sitter CLI' is not installed.\n" .. rockspec.package .. " requires the tree-sitter CLI to build.\n"
 	end
-	if build.generate_from_grammar and not fs.is_tool_available("node", "Node JS") then
-		return nil, "'Node JS' is not installed.\n" .. rockspec.package .. " requires Node JS to build."
+	if build.generate_from_grammar then
+		local js_runtime = os.getenv("TREE_SITTER_JS_RUNTIME") or "node"
+		local js_runtime_name = js_runtime == "node" and "Node JS" or js_runtime
+		if not fs.is_tool_available(js_runtime, js_runtime_name) then
+			return nil,
+				("'%s' is not installed.\n%s requires %s to build."):format(
+					js_runtime,
+					rockspec.package,
+					js_runtime_name
+				)
+		end
 	end
 	if build.location then
 		fs.change_dir(rockspec.build)
@@ -63,9 +73,18 @@ function tree_sitter.run(rockspec, no_install)
 			return nil, "Failed to generate tree-sitter grammar."
 		end
 	end
-	---@diagnostic disable-next-line: inject-field
+	local incdirs = {}
+	for _, source in ipairs(build.sources) do
+		local dir = source:match("(.-)%/")
+		if dir then
+			table.insert(incdirs, dir)
+		end
+	end
 	rockspec.build.modules = {
-		["parser." .. build.lang] = build.sources,
+		["parser." .. build.lang] = {
+			sources = build.sources,
+			incdirs = incdirs,
+		},
 	}
 	return builtin.run(rockspec, no_install)
 end

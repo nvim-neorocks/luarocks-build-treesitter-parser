@@ -79,6 +79,7 @@
             ++ (with pkgs; [
               lua5_1
               luarocks
+              tree-sitter
             ]);
         };
 
@@ -86,6 +87,7 @@
           inherit
             (pkgs.lua51Packages)
             tree-sitter-rust
+            tree-sitter-ocamllex
             ;
         };
 
@@ -97,6 +99,7 @@
           inherit
             (pkgs.lua51Packages)
             tree-sitter-rust
+            tree-sitter-ocamllex
             ;
         };
       };
