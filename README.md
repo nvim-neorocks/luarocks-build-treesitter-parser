@@ -32,7 +32,11 @@ dependencies = {
 build = {
 
   type = "tree-sitter",
+ 
+  ---@type string Name of the language, e.g. "haskell"
+  lang = "LANG",
 
+  ---@type string[]
   sources = { "src/parser.c", "src/scanner.c" },
 
   ---@type boolean? (optional) Is npm required to generate the sources?
@@ -40,9 +44,6 @@ build = {
 
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
   generate_from_grammar = true,
-
-  ---@type boolean? (optional) Use a Makefile to build the grammar?
-  use_makefile = false,
 
   ---@type string? (optional) tree-sitter grammar's location (relative to the source root).
   location = "libs/tree-sitter-LANG",
