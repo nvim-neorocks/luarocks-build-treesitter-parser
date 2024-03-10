@@ -34,6 +34,7 @@
           inherit system;
           overlays = [
             gen-luarc.overlays.default
+            (import ./nix/overlay.nix {inherit self;})
           ];
         };
         luarc = pkgs.mk-luarc {
@@ -81,10 +82,21 @@
             ]);
         };
 
+        legacyPackages.fixtures = {
+          inherit
+            (pkgs.lua51Packages)
+            tree-sitter-rust
+            ;
+        };
+
         checks = {
           inherit
             pre-commit-check
             type-check
+            ;
+          inherit
+            (pkgs.lua51Packages)
+            tree-sitter-rust
             ;
         };
       };

@@ -1,6 +1,6 @@
 local _MODREV, _SPECREV = "scm", "-1"
 rockspec_format = "3.0"
-package = "lua-build-treesitter-parser"
+package = "luarocks-build-treesitter-parser"
 version = _MODREV .. _SPECREV
 
 dependencies = {
