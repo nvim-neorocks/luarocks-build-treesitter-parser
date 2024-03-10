@@ -39,11 +39,12 @@ build = {
   ---@type string[]
   sources = { "src/parser.c", "src/scanner.c" },
 
-  ---@type boolean? (optional) Is npm required to generate the sources?
-  generate_requires_npm = false,
-
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
   generate_from_grammar = true,
+
+  ---@type boolean? (optional) Is npm required to generate the sources?
+  --- Ignored if generate_from_grammar is false.
+  generate_requires_npm = false,
 
   ---@type string? (optional) tree-sitter grammar's location (relative to the source root).
   location = "libs/tree-sitter-LANG",
