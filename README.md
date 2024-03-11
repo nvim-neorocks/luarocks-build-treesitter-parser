@@ -4,8 +4,15 @@
 >
 > This is early WIP!
 
-A luarocks build backend for tree-sitter parsers that require npm
-or that need to be generated using the tree-sitter CLI
+A luarocks build backend for tree-sitter parsers. 
+
+The resulting parser libraries are installed to
+`<luarocks-install-tree>/lib/lua/<lua-version>/parser`.
+
+> [!IMPORTANT]
+>
+> The installed parsers are *not* lua modules, but they
+> can be added to the `package.cpath`.
 
 ## Example rockspec
 
@@ -51,3 +58,17 @@ build = {
 
 }
 ```
+
+> [!TIP]
+>
+> You can find more examples in the [fixtures](./fixtures) directory.
+
+## Usage with Neovim
+
+Neovim searches for tree-sitter parsers in a `parser` directory
+on the runtimepath (`:h rtp`).
+
+Parsers installed with luarocks-build-treesitter-parser can be found
+by creating a symlink to the `parser` directory in the install location
+on the Neovim runtimepath.
+
