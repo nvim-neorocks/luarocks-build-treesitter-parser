@@ -53,7 +53,7 @@ function tree_sitter.run(rockspec, no_install)
 		end
 	end
 	if build.location then
-		util.printout("Changing to " .. build.location)
+		util.printout("Changing to directory: " .. build.location)
 		fs.change_dir(build.location)
 	end
 	if build.generate_from_grammar then

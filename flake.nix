@@ -88,7 +88,8 @@
             (pkgs.lua51Packages)
             tree-sitter-rust
             tree-sitter-ocamllex
-            tree-sitter-toml
+            tree-sitter-xml
+            tree-sitter-toml # requires --option sandbox false
             ;
         };
 
@@ -101,6 +102,7 @@
             (pkgs.lua51Packages)
             tree-sitter-rust
             tree-sitter-ocamllex
+            tree-sitter-xml
             # tree-sitter-toml Can't build in a sandboxed environment
             
             ;
