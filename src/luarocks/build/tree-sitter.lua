@@ -1,6 +1,7 @@
 ---@diagnostic disable: inject-field
 local fs = require("luarocks.fs")
 local builtin = require("luarocks.build.builtin")
+local util = require("luarocks.util")
 
 local tree_sitter = {}
 
@@ -52,15 +53,18 @@ function tree_sitter.run(rockspec, no_install)
 		end
 	end
 	if build.location then
-		fs.change_dir(rockspec.build)
+		util.printout("Changing to " .. build.location)
+		fs.change_dir(build.location)
 	end
 	if build.generate_from_grammar then
 		local cmd
 		if build.generate_requires_npm then
 			cmd = { "npm", "install" }
+			util.printout("Installing npm dependencies...")
 			if not fs.execute(table.concat(cmd, " ")) then
 				return nil, "Failed to install npm dependencies."
 			end
+			util.printout("Done.")
 		end
 		cmd = { "tree-sitter", "generate" }
 		local abi = os.getenv("TREE_SITTER_LANGUAGE_VERSION")
@@ -69,9 +73,11 @@ function tree_sitter.run(rockspec, no_install)
 			table.insert(cmd, "--abi")
 			table.insert(cmd, abi)
 		end
+		util.printout("Generating tree-sitter sources...")
 		if not fs.execute(table.concat(cmd, " ")) then
 			return nil, "Failed to generate tree-sitter grammar."
 		end
+		util.printout("Done.")
 	end
 	local incdirs = {}
 	for _, source in ipairs(build.sources) do

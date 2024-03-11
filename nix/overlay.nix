@@ -53,10 +53,37 @@
           hash = "sha256-YhmEE7I7UF83qMuldHqc/fD/no/7YuZd6CaAIaZ1now=";
         };
         buildInputs = [
+          tree-sitter
           nodejs_21
         ];
         propagatedBuildInputs = [
+          luarocks-build-treesitter-parser
+        ];
+        disabled = luaOlder "5.1";
+      }) {};
+    tree-sitter-toml = luaself.callPackage ({
+      buildLuarocksPackage,
+      fetchFromGitHub,
+      luaOlder,
+      luarocks-build-treesitter-parser,
+      tree-sitter,
+      nodejs_21,
+    }:
+      buildLuarocksPackage {
+        pname = "tree-sitter-toml";
+        version = "scm-1";
+        knownRockspec = "${self}/fixtures/tree-sitter-toml-scm-1.rockspec";
+        src = fetchFromGitHub {
+          owner = "ikatyang";
+          repo = "tree-sitter-toml";
+          rev = "8bd2056818b21860e3d756b5a58c4f6e05fb744e";
+          hash = "sha256-z9MWNOBxLHBd/pVs5/QiSSGtaW+DUd7y3wZXcl3hWnk=";
+        };
+        buildInputs = [
           tree-sitter
+          nodejs_21
+        ];
+        propagatedBuildInputs = [
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
