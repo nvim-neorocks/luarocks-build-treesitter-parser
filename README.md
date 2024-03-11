@@ -40,10 +40,10 @@ build = {
 
   type = "tree-sitter",
  
-  ---@type string Name of the language, e.g. "haskell"
+  ---@type string (required) Name of the language, e.g. "haskell".
   lang = "LANG",
 
-  ---@type string[]
+  ---@type string[] (required) parser source files.
   sources = { "src/parser.c", "src/scanner.c" },
 
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
