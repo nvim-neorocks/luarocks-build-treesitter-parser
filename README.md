@@ -6,6 +6,8 @@
 
 A luarocks build backend for tree-sitter parsers. 
 
+Used by the [Neovim User Rock Repository (NURR)](https://github.com/nvim-neorocks/nurr).
+
 The resulting parser libraries are installed to
 `<luarocks-install-tree>/lib/lua/<lua-version>/parser`.
 
