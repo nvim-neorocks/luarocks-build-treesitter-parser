@@ -83,6 +83,8 @@
             ]);
         };
 
+        packages.default = pkgs.lua51Packages.luarocks-build-treesitter-parser;
+
         legacyPackages.fixtures = {
           inherit
             (pkgs.lua51Packages)
