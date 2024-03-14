@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.0.0...v1.0.1) (2024-03-14)
+
+
+### Bug Fixes
+
+* name build type `treesitter-parser` by default ([28777b6](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/28777b60c1eb7782b6b2869037778abd81c27d9d))
+
+
+### Reverts
+
+* add luarocks-build-treesitter-parser to flake packages outputs ([9eeb147](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/9eeb147303089a42e1d9174f3ecfe7d39dffcbf0))
+* provide package as overlay ([42bd0bc](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/42bd0bcd904452755294745312dcdf95650e79f3))
+
 ## 1.0.0 (2024-03-11)
 
 
