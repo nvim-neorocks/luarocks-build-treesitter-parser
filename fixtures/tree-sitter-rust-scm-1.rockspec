@@ -18,7 +18,7 @@ dependencies = {
 }
 
 build = {
-  type = "tree-sitter",
+  type = "treesitter-parser",
   lang = "rust",
   sources = { "src/parser.c", "src/scanner.c" },
 }

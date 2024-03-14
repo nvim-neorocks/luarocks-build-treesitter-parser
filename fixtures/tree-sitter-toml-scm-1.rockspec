@@ -18,7 +18,7 @@ dependencies = {
 }
 
 build = {
-  type = "tree-sitter",
+  type = "treesitter-parser",
   lang = "toml",
   sources = { "src/parser.c", "src/scanner.c" },
   generate_from_grammar = true,

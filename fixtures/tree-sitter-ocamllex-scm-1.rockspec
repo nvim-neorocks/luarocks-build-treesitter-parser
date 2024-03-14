@@ -18,7 +18,7 @@ dependencies = {
 }
 
 build = {
-  type = "tree-sitter",
+  type = "tree-sitter", -- Make sure old version still works
   lang = "ocamllex",
   sources = { "src/parser.c", "src/scanner.c" },
   generate_from_grammar = true,

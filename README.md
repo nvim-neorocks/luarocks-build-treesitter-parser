@@ -40,7 +40,7 @@ dependencies = {
 
 build = {
 
-  type = "tree-sitter",
+  type = "treesitter-parser",
  
   ---@type string (required) Name of the language, e.g. "haskell".
   lang = "LANG",
