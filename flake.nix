@@ -34,8 +34,7 @@
           inherit system;
           overlays = [
             gen-luarc.overlays.default
-            self.overlays.default
-            (import ./nix/fixture-overlay.nix {inherit self;})
+            (import ./nix/overlay.nix {inherit self;})
           ];
         };
         luarc = pkgs.mk-luarc {
@@ -110,9 +109,6 @@
             
             ;
         };
-      };
-      flake = {
-        overlays.default = import ./nix/overlay.nix {inherit self;};
       };
     };
 }
