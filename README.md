@@ -24,6 +24,10 @@ package = "tree-sitter-LANG"
 version = "scm-1"
 
 source = {
+  url = "https://github.com/tree-sitter/tree-sitter-LANG/archive/<REF>.zip",
+  dir = 'tree-sitter-LANG-<REF>',
+}
+source = {
   url = "git://github.com/tree-sitter/tree-sitter-LANG",
 }
 
