@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.0.1...v1.1.0) (2024-03-17)
+
+
+### Features
+
+* `build.queries` for passing in embedded query files ([39b7998](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/39b7998d51c2bc9356a21bd078ded16ac330483c))
+
 ## [1.0.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.0.0...v1.0.1) (2024-03-14)
 
 
