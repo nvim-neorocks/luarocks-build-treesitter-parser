@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.1.0...v1.1.1) (2024-03-17)
+
+
+### Bug Fixes
+
+* add luafilestem dependency to luarocks-tag-release ([b93b3d5](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/b93b3d51f2acefe6f12853c4c321df6f93a6699b))
+
 ## [1.1.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.0.1...v1.1.0) (2024-03-17)
 
 
