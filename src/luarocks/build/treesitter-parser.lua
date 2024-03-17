@@ -1,5 +1,6 @@
 ---@diagnostic disable: inject-field
 local fs = require("luarocks.fs")
+local dir = require("luarocks.dir")
 local builtin = require("luarocks.build.builtin")
 local util = require("luarocks.util")
 
@@ -22,6 +23,7 @@ local treesitter_parser = {}
 ---@field generate_requires_npm? boolean
 ---@field generate_from_grammar? boolean
 ---@field location? string
+---@field queries? table<string, string>
 
 ---@param rockspec table
 ---@param no_install boolean
@@ -81,10 +83,28 @@ function treesitter_parser.run(rockspec, no_install)
 	end
 	local incdirs = {}
 	for _, source in ipairs(build.sources) do
-		local dir = source:match("(.-)%/")
-		if dir then
-			table.insert(incdirs, dir)
+		local source_dir = source:match("(.-)%/")
+		if source_dir then
+			table.insert(incdirs, source_dir)
 		end
+	end
+	if build.queries then
+		if fs.is_dir("queries") then
+			pcall(fs.delete, "queries")
+		end
+		local queries_dir = dir.path("queries", build.lang)
+		fs.make_dir(queries_dir)
+		for name, content in pairs(build.queries) do
+			local queries_file = dir.path(queries_dir, name)
+			local fd = io.open(queries_file, "w+")
+			if not fd then
+				return nil, "Could not open " .. queries_file .. " for writing"
+			end
+			fd:write(content)
+			fd:close()
+		end
+		rockspec.build.copy_directories = rockspec.build.copy_directories or {}
+		table.insert(rockspec.build.copy_directories, "queries")
 	end
 	rockspec.build.modules = {
 		["parser." .. build.lang] = {

@@ -3,6 +3,7 @@
     luarocks-build-treesitter-parser = luaself.callPackage ({
       buildLuarocksPackage,
       luaOlder,
+      luafilesystem,
     }:
       buildLuarocksPackage {
         pname = "luarocks-build-treesitter-parser";
@@ -10,29 +11,42 @@
         knownRockspec = "${self}/luarocks-build-treesitter-parser-scm-1.rockspec";
         src = self;
         disabled = luaOlder "5.1";
+        propagatedBuildInputs = [
+          luafilesystem
+        ];
       }) {};
 
-    tree-sitter-rust = luaself.callPackage ({
-      buildLuarocksPackage,
-      fetchFromGitHub,
-      luaOlder,
-      luarocks-build-treesitter-parser,
-    }:
-      buildLuarocksPackage {
-        pname = "tree-sitter-rust";
-        version = "scm-1";
-        knownRockspec = "${self}/fixtures/tree-sitter-rust-scm-1.rockspec";
-        src = fetchFromGitHub {
-          owner = "tree-sitter";
-          repo = "tree-sitter-rust";
-          rev = "3a56481f8d13b6874a28752502a58520b9139dc7";
-          hash = "sha256-6ROXeKuPehtIOtaI1OJuTtyPfQmZyLzCxv3ZS04yAIk=";
-        };
-        propagatedBuildInputs = [
-          luarocks-build-treesitter-parser
-        ];
-        disabled = luaOlder "5.1";
-      }) {};
+    tree-sitter-rust =
+      (luaself.callPackage ({
+        buildLuarocksPackage,
+        fetchFromGitHub,
+        luaOlder,
+        luarocks-build-treesitter-parser,
+      }:
+        buildLuarocksPackage {
+          pname = "tree-sitter-rust";
+          version = "scm-1";
+          knownRockspec = "${self}/fixtures/tree-sitter-rust-scm-1.rockspec";
+          src = fetchFromGitHub {
+            owner = "tree-sitter";
+            repo = "tree-sitter-rust";
+            rev = "3a56481f8d13b6874a28752502a58520b9139dc7";
+            hash = "sha256-6ROXeKuPehtIOtaI1OJuTtyPfQmZyLzCxv3ZS04yAIk=";
+          };
+          propagatedBuildInputs = [
+            luarocks-build-treesitter-parser
+          ];
+          disabled = luaOlder "5.1";
+        }) {})
+      .overrideAttrs (oa: {
+        fixupPhase = ''
+          grep -q ';;' $out/tree-sitter-rust-scm-1-rocks/tree-sitter-rust/scm-1/queries/rust/highlights.scm
+          if [ $? -ne 0 ]; then
+            echo "Build did not create highlights.scm file with the expected content"
+            exit 1
+          fi
+        '';
+      });
 
     tree-sitter-ocamllex = luaself.callPackage ({
       buildLuarocksPackage,

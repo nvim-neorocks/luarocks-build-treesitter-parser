@@ -51,12 +51,27 @@ build = {
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
   generate_from_grammar = true,
 
-  ---@type boolean? (optional) Is npm required to generate the sources?
   --- Ignored if generate_from_grammar is false.
+  ---@type boolean? (optional) Is npm required to generate the sources?
   generate_requires_npm = false,
 
   ---@type string? (optional) tree-sitter grammar's location (relative to the source root).
   location = "libs/tree-sitter-LANG",
+
+  --- Overwrites any existing queries with the embedded queries.
+  --- Will add 'queries' to the rockspec's 'copy_directories' if set.
+  ---@type table<string, string>
+  queries = {
+        -- Will create a `queries/<lang>/highlights.scm`
+        -- Note that the content should not be indented.
+        ["highlights.scm"] = [[
+(signature
+  name: (variable) @function)
+
+(function
+  name: (variable) @function)
+]],
+  },
 
 }
 ```
