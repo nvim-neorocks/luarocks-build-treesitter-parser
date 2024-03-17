@@ -64,13 +64,13 @@ build = {
   queries = {
         -- Will create a `queries/<lang>/highlights.scm`
         -- Note that the content should not be indented.
-        ["highlights.scm"] = [[
+        ["highlights.scm"] = [==[
 (signature
   name: (variable) @function)
 
 (function
   name: (variable) @function)
-]],
+]==],
   },
 
 }
