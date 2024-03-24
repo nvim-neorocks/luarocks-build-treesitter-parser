@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.1.1...v1.2.0) (2024-03-24)
+
+
+### Features
+
+* **build:** basic cpp support (add -lstdc++ if cpp sources set) ([7470cf7](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/7470cf767069aa38246cc5fa9030815986924470))
+
 ## [1.1.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.1.0...v1.1.1) (2024-03-17)
 
 
