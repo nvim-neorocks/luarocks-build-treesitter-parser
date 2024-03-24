@@ -77,8 +77,7 @@
               luacheck
             ]
             ++ (with pkgs; [
-              lua5_1
-              luarocks
+              (lua5_1.withPackages (ps: with ps; [luarocks luarocks-build-treesitter-parser]))
               tree-sitter
             ]);
         };
