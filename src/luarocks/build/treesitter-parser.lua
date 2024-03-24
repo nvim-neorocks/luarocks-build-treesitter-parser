@@ -9,6 +9,7 @@ local treesitter_parser = {}
 ---@class RockSpec
 ---@field package string
 ---@field build BuildSpec
+---@field variables table
 
 ---@class BuildSpec
 ---@field type string
@@ -81,12 +82,20 @@ function treesitter_parser.run(rockspec, no_install)
 		end
 		util.printout("Done.")
 	end
-	local incdirs = {}
+	local incdirs, is_cpp = {}, false
 	for _, source in ipairs(build.sources) do
 		local source_dir = source:match("(.-)%/")
-		if source_dir then
+		is_cpp = is_cpp
+			or source:match("%.cc$") ~= nil
+			or source:match("%.cpp$") ~= nil
+			or source:match("%.cxx$") ~= nil
+		if dir then
 			table.insert(incdirs, source_dir)
 		end
+	end
+	if is_cpp then
+		local prev = rockspec.variables.LIBFLAG
+		rockspec.variables.LIBFLAG = prev .. (prev and #prev > 1 and " " or "") .. "-lstdc++"
 	end
 	if build.queries then
 		if fs.is_dir("queries") then
