@@ -90,6 +90,7 @@
             tree-sitter-xml
             tree-sitter-toml # requires --option sandbox false
             tree-sitter-norg
+            tree-sitter-html_tags
             ;
         };
 
@@ -103,9 +104,10 @@
             tree-sitter-rust
             tree-sitter-ocamllex
             tree-sitter-xml
-            tree-sitter-norg
             # tree-sitter-toml Can't build in a sandboxed environment
             
+            tree-sitter-norg
+            tree-sitter-html_tags
             ;
         };
       };

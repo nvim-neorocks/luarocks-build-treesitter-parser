@@ -115,12 +115,14 @@ function treesitter_parser.run(rockspec, no_install)
 		rockspec.build.copy_directories = rockspec.build.copy_directories or {}
 		table.insert(rockspec.build.copy_directories, "queries")
 	end
-	rockspec.build.modules = {
-		["parser." .. build.lang] = {
-			sources = build.sources,
-			incdirs = incdirs,
-		},
-	}
+	if type(build.sources) == "table" and #build.sources > 0 then
+		rockspec.build.modules = {
+			["parser." .. build.lang] = {
+				sources = build.sources,
+				incdirs = incdirs,
+			},
+		}
+	end
 	return builtin.run(rockspec, no_install)
 end
 

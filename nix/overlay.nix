@@ -147,6 +147,27 @@
         ];
         disabled = luaOlder "5.1";
       }) {};
+    tree-sitter-html_tags = luaself.callPackage ({
+      buildLuarocksPackage,
+      fetchFromGitHub,
+      luaOlder,
+      luarocks-build-treesitter-parser,
+    }:
+      buildLuarocksPackage {
+        pname = "tree-sitter-html_tags";
+        version = "scm-1";
+        knownRockspec = "${self}/fixtures/tree-sitter-html_tags-scm-1.rockspec";
+        src = fetchFromGitHub {
+          owner = "nvim-neorocks";
+          repo = "luarocks-stub";
+          rev = "548853648d7cff7e0d959ff95209e8aa97a793bc";
+          hash = "sha256-UmXOMUC6CsxHMgmrfehh9c5W/1A1MJThVx9GYD783fo=";
+        };
+        propagatedBuildInputs = [
+          luarocks-build-treesitter-parser
+        ];
+        disabled = luaOlder "5.1";
+      }) {};
   };
 in {
   lua5_1 = prev.lua5_1.override {
