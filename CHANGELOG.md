@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.2.0...v1.3.0) (2024-03-27)
+
+
+### Features
+
+* support query packages without parser sources ([48d334f](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/48d334fce9a92c2b50c946fc32d23ad5d6800f3c))
+
 ## [1.2.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.1.1...v1.2.0) (2024-03-24)
 
 
