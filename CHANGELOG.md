@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.1...v1.3.2) (2024-03-28)
+
+
+### Bug Fixes
+
+* **windows:** use 'w' instead of 'w+' to write queries files ([eb8bebf](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/eb8bebf3109fe61ebb30e7e1716b0f7081098823))
+
 ## [1.3.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.0...v1.3.1) (2024-03-28)
 
 
