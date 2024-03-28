@@ -5,7 +5,7 @@ version = _MODREV .. _SPECREV
 
 dependencies = {
     "lua >= 5.1",
-    "luafilesystem",
+    "luafilesystem ~> 1",
 }
 
 test_dependencies = {

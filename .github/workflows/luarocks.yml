@@ -27,4 +27,4 @@ jobs:
         with:
           version: ${{ env.LUAROCKS_VERSION }}
           dependencies: |
-            luafilesystem
+            luafilesystem ~> 1
