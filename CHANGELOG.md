@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.0...v1.3.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* prevent installation of luafilesystem scm as dependency ([712e653](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/712e653f61de7cfaa77d19c13f7966c3ae01561b))
+
 ## [1.3.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.2.0...v1.3.0) (2024-03-27)
 
 
