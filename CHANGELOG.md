@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.3](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.2...v1.3.3) (2024-03-28)
+
+
+### Bug Fixes
+
+* **windows:** create queries directory before queries/&lt;lang&gt; ([bb2dd48](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/bb2dd488004afb66c4ac8b5f51ca90aa690a6481))
+
+
+### Reverts
+
+* **windows:** use 'w' instead of 'w+' to write queries files ([d609c53](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/d609c53fa158d817f2796c99e1cf0db8239e8a19))
+
 ## [1.3.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.1...v1.3.2) (2024-03-28)
 
 
