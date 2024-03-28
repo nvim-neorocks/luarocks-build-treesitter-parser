@@ -105,7 +105,7 @@ function treesitter_parser.run(rockspec, no_install)
 		fs.make_dir(queries_dir)
 		for name, content in pairs(build.queries) do
 			local queries_file = dir.path(queries_dir, name)
-			local fd = io.open(queries_file, "w+")
+			local fd = io.open(queries_file, "w")
 			if not fd then
 				return nil, "Could not open " .. queries_file .. " for writing"
 			end
