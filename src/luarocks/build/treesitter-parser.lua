@@ -101,6 +101,7 @@ function treesitter_parser.run(rockspec, no_install)
 		if fs.is_dir("queries") then
 			pcall(fs.delete, "queries")
 		end
+		fs.make_dir("queries")
 		local queries_dir = dir.path("queries", build.lang)
 		fs.make_dir(queries_dir)
 		for name, content in pairs(build.queries) do
