@@ -1,13 +1,15 @@
 ---@diagnostic disable: inject-field
 local fs = require("luarocks.fs")
 local dir = require("luarocks.dir")
+local path = require("luarocks.path")
 local builtin = require("luarocks.build.builtin")
 local util = require("luarocks.util")
 
 local treesitter_parser = {}
 
 ---@class RockSpec
----@field package string
+---@field name string
+---@field version string
 ---@field build BuildSpec
 ---@field variables table
 
@@ -37,22 +39,18 @@ function treesitter_parser.run(rockspec, no_install)
 	local build = rockspec.build
 
 	if build.generate_requires_npm and not fs.is_tool_available("npm", "npm") then
-		return nil, "'npm' is not installed.\n" .. rockspec.package .. " requires npm to build.\n"
+		return nil, "'npm' is not installed.\n" .. rockspec.name .. " requires npm to build.\n"
 	end
 	if build.generate_from_grammar and not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
 		return nil,
-			"'tree-sitter CLI' is not installed.\n" .. rockspec.package .. " requires the tree-sitter CLI to build.\n"
+			"'tree-sitter CLI' is not installed.\n" .. rockspec.name .. " requires the tree-sitter CLI to build.\n"
 	end
 	if build.generate_from_grammar then
 		local js_runtime = os.getenv("TREE_SITTER_JS_RUNTIME") or "node"
 		local js_runtime_name = js_runtime == "node" and "Node JS" or js_runtime
 		if not fs.is_tool_available(js_runtime, js_runtime_name) then
 			return nil,
-				("'%s' is not installed.\n%s requires %s to build."):format(
-					js_runtime,
-					rockspec.package,
-					js_runtime_name
-				)
+				("'%s' is not installed.\n%s requires %s to build."):format(js_runtime, rockspec.name, js_runtime_name)
 		end
 	end
 	if build.location then
@@ -124,7 +122,16 @@ function treesitter_parser.run(rockspec, no_install)
 			},
 		}
 	end
-	return builtin.run(rockspec, no_install)
+	local lib_dir = path.lib_dir(rockspec.name, rockspec.version)
+	local parser_dir = dir.path(lib_dir, "parser")
+	local ok, err = builtin.run(rockspec, no_install)
+	if ok then
+		-- For neovim plugin managers that do not symlink parser_dir to the rtp
+		local dest = dir.path(path.install_dir(rockspec.name, rockspec.version), "parser")
+		fs.make_dir(dest)
+		ok, err = fs.copy_contents(parser_dir, dest)
+	end
+	return ok, err
 end
 
 return treesitter_parser
