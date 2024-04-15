@@ -169,8 +169,15 @@
         disabled = luaOlder "5.1";
       }) {};
   };
+  lua5_1_base =
+    if prev.stdenv.isDarwin
+    then
+      prev.lua5_1.override {
+        stdenv = final.clangStdenv;
+      }
+    else prev.lua5_1;
 in {
-  lua5_1 = prev.lua5_1.override {
+  lua5_1 = lua5_1_base.override {
     packageOverrides = luaPackage-override;
   };
   lua51Packages = final.lua5_1.pkgs;

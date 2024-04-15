@@ -23,6 +23,7 @@ local treesitter_parser = {}
 ---@class TreeSitterBuildSpec: BuildSpec
 ---@field lang string
 ---@field sources string[]
+---@field libflags? string[]
 ---@field generate_requires_npm? boolean
 ---@field generate_from_grammar? boolean
 ---@field location? string
@@ -91,9 +92,12 @@ function treesitter_parser.run(rockspec, no_install)
 			table.insert(incdirs, source_dir)
 		end
 	end
-	if is_cpp then
+	if is_cpp and not rockspec.build.libflags then
 		local prev = rockspec.variables.LIBFLAG
 		rockspec.variables.LIBFLAG = prev .. (prev and #prev > 1 and " " or "") .. "-lstdc++"
+	end
+	if rockspec.build.libflags then
+		rockspec.variables.LIBFLAG = table.concat(rockspec.build.libflags, " ")
 	end
 	if build.queries then
 		if fs.is_dir("queries") then
