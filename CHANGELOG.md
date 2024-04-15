@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.4.0...v1.5.0) (2024-04-15)
+
+
+### Features
+
+* add `build.libflags` option ([#11](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/11)) ([af4fd61](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/af4fd618a7a42977a31c32a64d7649dbcd6c38cc))
+
+
+### Bug Fixes
+
+* only copy parser_dir if it exists ([b6d37f2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/b6d37f2293e3effdc11807080d6093ca04ae0bba))
+
 ## [1.4.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.3.3...v1.4.0) (2024-04-13)
 
 
