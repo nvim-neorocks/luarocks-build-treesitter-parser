@@ -52,6 +52,21 @@ build = {
   ---@type string[] (required) parser source files.
   sources = { "src/parser.c", "src/scanner.c" },
 
+  -- For C++ sources, this build backend automatically sets "-lstdc++"
+  -- You can override the default by passing in a list of flags.
+  -- libflags = ...
+  platforms = {
+    macosx = {
+      libflags = {
+        "-bundle",
+        "-undefined",
+        "dynamic_lookup",
+        "-all_load",
+        "-std=c++11",
+      },
+    },
+  },
+
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
   generate_from_grammar = true,
 
