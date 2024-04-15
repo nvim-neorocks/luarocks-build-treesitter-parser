@@ -125,7 +125,7 @@ function treesitter_parser.run(rockspec, no_install)
 	local lib_dir = path.lib_dir(rockspec.name, rockspec.version)
 	local parser_dir = dir.path(lib_dir, "parser")
 	local ok, err = builtin.run(rockspec, no_install)
-	if ok then
+	if ok and fs.exists(parser_dir) then
 		-- For neovim plugin managers that do not symlink parser_dir to the rtp
 		local dest = dir.path(path.install_dir(rockspec.name, rockspec.version), "parser")
 		fs.make_dir(dest)
