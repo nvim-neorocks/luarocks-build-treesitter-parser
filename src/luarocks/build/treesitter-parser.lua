@@ -4,6 +4,7 @@ local dir = require("luarocks.dir")
 local path = require("luarocks.path")
 local builtin = require("luarocks.build.builtin")
 local util = require("luarocks.util")
+local cfg = require("luarocks.core.cfg")
 
 local treesitter_parser = {}
 
@@ -28,6 +29,15 @@ local treesitter_parser = {}
 ---@field generate_from_grammar? boolean
 ---@field location? string
 ---@field queries? table<string, string>
+---@field try_tree_sitter_build? boolean
+
+--- Run a command displaying its execution on standard output.
+-- @return boolean: true if command succeeds (status code 0), false
+-- otherwise.
+local function execute(...)
+	io.stdout:write(table.concat({ ... }, " ") .. "\n")
+	return fs.execute(...)
+end
 
 ---@param rockspec table
 ---@param no_install boolean
@@ -128,7 +138,18 @@ function treesitter_parser.run(rockspec, no_install)
 	end
 	local lib_dir = path.lib_dir(rockspec.name, rockspec.version)
 	local parser_dir = dir.path(lib_dir, "parser")
-	local ok, err = builtin.run(rockspec, no_install)
+	local ok, err
+	local try_tree_sitter_build = rockspec.build.try_tree_sitter_build == nil or rockspec.build.try_tree_sitter_build
+	if try_tree_sitter_build and fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
+		-- Try tree-sitter build
+		fs.make_dir(parser_dir)
+		local parser_lib = dir.path(parser_dir, rockspec.build.lang .. "." .. cfg.lib_extension)
+		ok = execute("tree-sitter", "build", "-o", parser_lib, ".") and fs.exists(parser_lib)
+	end
+	if not ok then
+		-- Fall back to builtin build
+		ok, err = builtin.run(rockspec, no_install)
+	end
 	if ok and fs.exists(parser_dir) then
 		-- For neovim plugin managers that do not symlink parser_dir to the rtp
 		local dest = dir.path(path.install_dir(rockspec.name, rockspec.version), "parser")

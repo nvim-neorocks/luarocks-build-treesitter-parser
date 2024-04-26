@@ -16,6 +16,50 @@
         ];
       }) {};
 
+    tree-sitter-haskell =
+      (luaself.callPackage ({
+        buildLuarocksPackage,
+        fetchFromGitHub,
+        luaOlder,
+        luarocks-build-treesitter-parser,
+      }:
+        buildLuarocksPackage {
+          pname = "tree-sitter-haskell";
+          version = "scm-1";
+          knownRockspec = "${self}/fixtures/tree-sitter-haskell-scm-1.rockspec";
+          src = fetchFromGitHub {
+            owner = "tree-sitter";
+            repo = "tree-sitter-haskell";
+            rev = "95a4f0023741b3bee0cc500f3dab9c5bab2dc2be";
+            hash = "sha256-bqcBjH4ar5OcxkhtFcYmBxDwHK0TYxkXEcg4NLudi08=";
+          };
+          preBuild = ''
+            # tree-sitter CLI expects to be able to create log files, etc.
+            export HOME=$(realpath .)
+          '';
+          buildInputs = with final; [
+            gcc
+            tree-sitter
+          ];
+          propagatedBuildInputs = [
+            luarocks-build-treesitter-parser
+          ];
+          disabled = luaOlder "5.1";
+        }) {})
+      .overrideAttrs (oa: {
+        fixupPhase = ''
+          grep -q '(pat_wildcard)' $out/tree-sitter-haskell-scm-1-rocks/tree-sitter-haskell/scm-1/queries/haskell/highlights.scm
+          if [ $? -ne 0 ]; then
+            echo "Build did not create highlights.scm file with the expected content"
+            exit 1
+          fi
+          if [! -f $out/result/lib/lua/5.1/parser/haskell.so ]; then
+            echo "Build did not create parser/haskell.so in the expected location"
+            exit 1
+          fi
+        '';
+      });
+
     tree-sitter-rust =
       (luaself.callPackage ({
         buildLuarocksPackage,
@@ -54,7 +98,7 @@
       luaOlder,
       luarocks-build-treesitter-parser,
       tree-sitter,
-      nodejs_21,
+      nodejs_22,
     }:
       buildLuarocksPackage {
         pname = "tree-sitter-ocamllex";
@@ -68,7 +112,7 @@
         };
         buildInputs = [
           tree-sitter
-          nodejs_21
+          nodejs_22
         ];
         propagatedBuildInputs = [
           luarocks-build-treesitter-parser
@@ -82,7 +126,7 @@
       luaOlder,
       luarocks-build-treesitter-parser,
       tree-sitter,
-      nodejs_21,
+      nodejs_22,
     }:
       buildLuarocksPackage {
         pname = "tree-sitter-toml";
@@ -96,7 +140,7 @@
         };
         buildInputs = [
           tree-sitter
-          nodejs_21
+          nodejs_22
         ];
         propagatedBuildInputs = [
           luarocks-build-treesitter-parser
