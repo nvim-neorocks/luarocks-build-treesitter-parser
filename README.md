@@ -92,6 +92,9 @@ build = {
 ]==],
   },
 
+  ---@type boolean? (optional) Try to run tree-sitter build (falling back to the builtin build if it fails or tree-sitter CLI is not available). Defaults to true.
+  try_tree_sitter_build = true,
+
 }
 ```
 

@@ -85,6 +85,7 @@
         legacyPackages.fixtures = {
           inherit
             (pkgs.lua51Packages)
+            tree-sitter-haskell
             tree-sitter-rust
             tree-sitter-ocamllex
             tree-sitter-xml
@@ -101,6 +102,7 @@
             ;
           inherit
             (pkgs.lua51Packages)
+            tree-sitter-haskell
             tree-sitter-rust
             tree-sitter-ocamllex
             tree-sitter-xml
