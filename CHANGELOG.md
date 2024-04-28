@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.5.0...v2.0.0) (2024-04-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove tree-sitter build script backward compatibility adapter
+
+### Features
+
+* remove tree-sitter build script backward compatibility adapter ([f5d475f](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/f5d475f5fdb16593ad06f4b827efb330017dc80d))
+* try tree-sitter build before falling back to builtin build ([2fefd61](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/2fefd61f9584c83d1811d02863e0954fce50c049))
+
 ## [1.5.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.4.0...v1.5.0) (2024-04-15)
 
 
