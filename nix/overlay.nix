@@ -170,27 +170,45 @@
         disabled = luaOlder "5.1";
       }) {};
 
-    tree-sitter-norg = luaself.callPackage ({
-      buildLuarocksPackage,
-      fetchFromGitHub,
-      luaOlder,
-      luarocks-build-treesitter-parser,
-    }:
-      buildLuarocksPackage {
-        pname = "tree-sitter-norg";
-        version = "scm-1";
-        knownRockspec = "${self}/fixtures/tree-sitter-norg-scm-1.rockspec";
-        src = fetchFromGitHub {
-          owner = "nvim-neorg";
-          repo = "tree-sitter-norg";
-          rev = "014073fe8016d1ac440c51d22c77e3765d8f6855";
-          hash = "sha256-0wL3Pby7e4nbeVHCRfWwxZfEcAF9/s8e6Njva+lj+Rc=";
-        };
-        propagatedBuildInputs = [
-          luarocks-build-treesitter-parser
-        ];
-        disabled = luaOlder "5.1";
-      }) {};
+    tree-sitter-norg =
+      (luaself.callPackage ({
+        buildLuarocksPackage,
+        fetchFromGitHub,
+        luaOlder,
+        luarocks-build-treesitter-parser,
+      }:
+        buildLuarocksPackage {
+          pname = "tree-sitter-norg";
+          version = "scm-1";
+          knownRockspec = "${self}/fixtures/tree-sitter-norg-scm-1.rockspec";
+          src = fetchFromGitHub {
+            owner = "nvim-neorg";
+            repo = "tree-sitter-norg";
+            rev = "014073fe8016d1ac440c51d22c77e3765d8f6855";
+            hash = "sha256-0wL3Pby7e4nbeVHCRfWwxZfEcAF9/s8e6Njva+lj+Rc=";
+          };
+          preBuild = ''
+            # tree-sitter CLI expects to be able to create log files, etc.
+            export HOME=$(realpath .)
+          '';
+          buildInputs = with final; [
+            clang
+            tree-sitter
+          ];
+          propagatedBuildInputs = [
+            luarocks-build-treesitter-parser
+          ];
+          disabled = luaOlder "5.1";
+        }) {})
+      .overrideAttrs (oa: {
+        fixupPhase = ''
+          if [! -f $out/result/lib/lua/5.1/parser/haskell.so ]; then
+            echo "Build did not create parser/haskell.so in the expected location"
+            exit 1
+          fi
+        '';
+      });
+
     tree-sitter-html_tags = luaself.callPackage ({
       buildLuarocksPackage,
       fetchFromGitHub,
