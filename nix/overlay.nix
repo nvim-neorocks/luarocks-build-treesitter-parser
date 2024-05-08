@@ -191,16 +191,19 @@
             # tree-sitter CLI expects to be able to create log files, etc.
             export HOME=$(realpath .)
           '';
-          buildInputs = with final; [
-            clang
-            tree-sitter
-          ];
           propagatedBuildInputs = [
             luarocks-build-treesitter-parser
           ];
           disabled = luaOlder "5.1";
         }) {})
       .overrideAttrs (oa: {
+        nativeBuildInputs =
+          oa.nativeBuildInputs
+          ++ (with final;
+            lib.optionals stdenv.isDarwin [
+              clang
+              tree-sitter
+            ]);
         fixupPhase = ''
           if [! -f $out/result/lib/lua/5.1/parser/haskell.so ]; then
             echo "Build did not create parser/haskell.so in the expected location"
