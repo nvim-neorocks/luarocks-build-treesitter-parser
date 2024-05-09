@@ -53,7 +53,7 @@
             echo "Build did not create highlights.scm file with the expected content"
             exit 1
           fi
-          if [! -f $out/result/lib/lua/5.1/parser/haskell.so ]; then
+          if [ ! -f $out/lib/lua/5.1/parser/haskell.so ]; then
             echo "Build did not create parser/haskell.so in the expected location"
             exit 1
           fi
@@ -205,8 +205,8 @@
               tree-sitter
             ]);
         fixupPhase = ''
-          if [! -f $out/result/lib/lua/5.1/parser/haskell.so ]; then
-            echo "Build did not create parser/haskell.so in the expected location"
+          if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
+            echo "Build did not create parser/norg.so in the expected location"
             exit 1
           fi
         '';
