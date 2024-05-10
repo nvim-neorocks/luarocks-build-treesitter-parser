@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v2.0.0...v3.0.0) (2024-05-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* update parser source generation logic ([#18](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/18))
+
+### Bug Fixes
+
+* update parser source generation logic ([#18](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/18)) ([7e2b71a](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/7e2b71a7c801fcadd36e12a22a6026aba5feb695))
+
 ## [2.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v1.5.0...v2.0.0) (2024-04-28)
 
 
