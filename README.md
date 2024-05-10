@@ -68,11 +68,11 @@ build = {
   },
 
   ---@type boolean? (optional) Must the sources be generated using the tree-sitter CLI?
-  generate_from_grammar = true,
+  generate = true,
 
-  --- Ignored if generate_from_grammar is false.
-  ---@type boolean? (optional) Is npm required to generate the sources?
-  generate_requires_npm = false,
+  --- Ignored if `generate` is false.
+  ---@type boolean? (optional) Generate the sources from src/grammar.json?
+  generate_from_json = false,
 
   ---@type string? (optional) tree-sitter grammar's location (relative to the source root).
   location = "libs/tree-sitter-LANG",

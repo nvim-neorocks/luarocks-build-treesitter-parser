@@ -28,9 +28,6 @@ build = {
   type = "treesitter-parser",
   lang = "haskell",
   sources = { "src/parser.c", "src/scanner.c" },
-  generate_from_grammar = false,
-  generate_requires_npm = false,
-  location = nil,
   copy_directories = { "queries" },
   queries = {
     ["folds.scm"] = [==[

@@ -21,5 +21,5 @@ build = {
   type = "treesitter-parser",
   lang = "ocamllex",
   sources = { "src/parser.c", "src/scanner.c" },
-  generate_from_grammar = true,
+  generate = true,
 }
