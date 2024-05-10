@@ -1,14 +1,14 @@
-package = "tree-sitter-toml"
+package = "tree-sitter-latex"
 
 version = "scm-1"
 
 source = {
-  url = "git://github.com/tree-sitter/tree-sitter-toml",
+  url = "git://github.com/latex-lsp/tree-sitter-latex",
 }
 
 description = {
-  summary = "tree-sitter parser for toml",
-  homepage = "https://github.com/tree-sitter/tree-sitter-toml",
+  summary = "tree-sitter parser for latex",
+  homepage = "https://github.com/latex-lsp/tree-sitter-latex",
   license = "MIT"
 }
 
@@ -19,8 +19,7 @@ dependencies = {
 
 build = {
   type = "treesitter-parser",
-  lang = "toml",
+  lang = "latex",
   sources = { "src/parser.c", "src/scanner.c" },
   generate = true,
-  generate_from_json = true,
 }

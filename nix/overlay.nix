@@ -148,6 +148,34 @@
         disabled = luaOlder "5.1";
       }) {};
 
+    tree-sitter-latex = luaself.callPackage ({
+      buildLuarocksPackage,
+      fetchFromGitHub,
+      luaOlder,
+      luarocks-build-treesitter-parser,
+      tree-sitter,
+      nodejs_22,
+    }:
+      buildLuarocksPackage {
+        pname = "tree-sitter-latex";
+        version = "scm-1";
+        knownRockspec = "${self}/fixtures/tree-sitter-latex-scm-1.rockspec";
+        src = fetchFromGitHub {
+          owner = "latex-lsp";
+          repo = "tree-sitter-latex";
+          rev = "cd82eb40d31bdfe65f846f4e06292d6c804b5e0e";
+          hash = "sha256-ptUIi8cMQ4CrnqZgnzJ0rnByd78y8l607+CSPKNrLEk=";
+        };
+        buildInputs = [
+          tree-sitter
+          nodejs_22
+        ];
+        propagatedBuildInputs = [
+          luarocks-build-treesitter-parser
+        ];
+        disabled = luaOlder "5.1";
+      }) {};
+
     tree-sitter-xml = luaself.callPackage ({
       buildLuarocksPackage,
       fetchFromGitHub,
