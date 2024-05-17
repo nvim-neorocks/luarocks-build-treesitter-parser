@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v3.0.0...v4.0.0) (2024-05-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* default to using `tree-sitter build`
+
+### Features
+
+* default to using `tree-sitter build` ([d8bc6e0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/d8bc6e0d79b1e97b1882a91f2a7e00f1434866db))
+
 ## [3.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v2.0.0...v3.0.0) (2024-05-10)
 
 
