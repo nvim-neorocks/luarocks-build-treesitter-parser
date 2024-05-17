@@ -20,7 +20,6 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "norg",
-  sources = { "src/parser.c", "src/scanner.cc" },
   platforms = {
     macosx = {
       libflags = {

@@ -223,6 +223,9 @@
             luarocks-build-treesitter-parser
           ];
           disabled = luaOlder "5.1";
+          buildInputs = [
+            final.tree-sitter
+          ];
         }) {})
       .overrideAttrs (oa: {
         nativeBuildInputs =
@@ -230,7 +233,6 @@
           ++ (with final;
             lib.optionals stdenv.isDarwin [
               clang
-              tree-sitter
             ]);
         fixupPhase = ''
           if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
@@ -260,6 +262,9 @@
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
+        buildInputs = [
+          final.tree-sitter
+        ];
       }) {};
   };
   lua5_1_base =

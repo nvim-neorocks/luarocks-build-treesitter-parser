@@ -27,7 +27,7 @@ source = {
 build = {
   type = "treesitter-parser",
   lang = "html_tags",
-  sources = {},
+  parser = false,
   queries = {
     ["highlights.scm"] = [==[
 (tag_name) @tag

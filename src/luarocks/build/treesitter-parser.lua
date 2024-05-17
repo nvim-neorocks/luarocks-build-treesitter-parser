@@ -23,13 +23,13 @@ local treesitter_parser = {}
 
 ---@class TreeSitterBuildSpec: BuildSpec
 ---@field lang string
----@field sources string[]
+---@field sources? string[]
+---@field parser? boolean
 ---@field libflags? string[]
 ---@field generate? boolean
 ---@field generate_from_json? boolean
 ---@field location? string
 ---@field queries? table<string, string>
----@field try_tree_sitter_build? boolean
 
 --- Run a command displaying its execution on standard output.
 -- @return boolean: true if command succeeds (status code 0), false
@@ -49,7 +49,10 @@ function treesitter_parser.run(rockspec, no_install)
 
 	local build = rockspec.build
 
-	if build.generate and not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
+	local build_parser = build.parser == nil or build.parser
+	local has_sources = type(build.sources) == "table" and #build.sources > 0
+
+	if (build.generate or not has_sources) and not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
 		return nil,
 			"'tree-sitter CLI' is not installed.\n" .. rockspec.name .. " requires the tree-sitter CLI to build.\n"
 	end
@@ -86,7 +89,7 @@ function treesitter_parser.run(rockspec, no_install)
 		util.printout("Done.")
 	end
 	local incdirs, is_cpp = {}, false
-	for _, source in ipairs(build.sources) do
+	for _, source in ipairs(build.sources or {}) do
 		local source_dir = source:match("(.-)%/")
 		is_cpp = is_cpp
 			or source:match("%.cc$") ~= nil
@@ -122,7 +125,7 @@ function treesitter_parser.run(rockspec, no_install)
 		rockspec.build.copy_directories = rockspec.build.copy_directories or {}
 		table.insert(rockspec.build.copy_directories, "queries")
 	end
-	if type(build.sources) == "table" and #build.sources > 0 then
+	if has_sources then
 		rockspec.build.modules = {
 			["parser." .. build.lang] = {
 				sources = build.sources,
@@ -133,16 +136,21 @@ function treesitter_parser.run(rockspec, no_install)
 	local lib_dir = path.lib_dir(rockspec.name, rockspec.version)
 	local parser_dir = dir.path(lib_dir, "parser")
 	local ok, err
-	local try_tree_sitter_build = rockspec.build.try_tree_sitter_build == nil or rockspec.build.try_tree_sitter_build
-	if try_tree_sitter_build and fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
-		-- Try tree-sitter build
-		fs.make_dir(parser_dir)
-		local parser_lib = dir.path(parser_dir, rockspec.build.lang .. "." .. cfg.lib_extension)
-		ok = execute("tree-sitter", "build", "-o", parser_lib, ".") and fs.exists(parser_lib)
-	end
-	if not ok then
-		-- Fall back to builtin build
-		ok, err = builtin.run(rockspec, no_install)
+	if build_parser then
+		if fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
+			-- Try tree-sitter build first
+			fs.make_dir(parser_dir)
+			local parser_lib = dir.path(parser_dir, rockspec.build.lang .. "." .. cfg.lib_extension)
+			ok = execute("tree-sitter", "build", "-o", parser_lib, ".") and fs.exists(parser_lib)
+		end
+		if not ok and has_sources then
+			-- Fall back to builtin build
+			ok, err = builtin.run(rockspec, no_install)
+		elseif not ok then
+			err = "tree-sitter build failed"
+		end
+	else
+		ok = true
 	end
 	if ok and fs.exists(parser_dir) then
 		-- For neovim plugin managers that do not symlink parser_dir to the rtp

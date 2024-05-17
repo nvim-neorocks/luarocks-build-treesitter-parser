@@ -49,14 +49,19 @@ build = {
   ---@type string (required) Name of the language, e.g. "haskell".
   lang = "LANG",
 
-  ---@type string[] (required) parser source files.
+  --- Will use `tree-sitter build` if these are unset or empty.
+  ---@type string[]? (optional) parser source files.
   sources = { "src/parser.c", "src/scanner.c" },
+
+  ---@type boolean? (optional) Won't build the parser if `false`.
+  parser = true,
 
   -- For C++ sources, this build backend automatically sets "-lstdc++"
   -- You can override the default by passing in a list of flags.
   -- libflags = ...
   platforms = {
     macosx = {
+      ---@type strin[]? (optional) Ignored if `sources` is unset or empty
       libflags = {
         "-bundle",
         "-undefined",
@@ -79,7 +84,7 @@ build = {
 
   --- Overwrites any existing queries with the embedded queries.
   --- Will add 'queries' to the rockspec's 'copy_directories' if set.
-  ---@type table<string, string>
+  ---@type table<string, string>? (optional)
   queries = {
         -- Will create a `queries/<lang>/highlights.scm`
         -- Note that the content should not be indented.
@@ -91,9 +96,6 @@ build = {
   name: (variable) @function)
 ]==],
   },
-
-  ---@type boolean? (optional) Try to run tree-sitter build (falling back to the builtin build if it fails or tree-sitter CLI is not available). Defaults to true.
-  try_tree_sitter_build = true,
 
 }
 ```
