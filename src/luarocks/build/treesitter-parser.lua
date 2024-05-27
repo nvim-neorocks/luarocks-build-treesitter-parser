@@ -147,7 +147,7 @@ function treesitter_parser.run(rockspec, no_install)
 			-- Fall back to builtin build
 			ok, err = builtin.run(rockspec, no_install)
 		elseif not ok then
-			err = "tree-sitter build failed"
+			err = "'tree-sitter build' failed. Note: tree-sitter 0.22.2 or later is required to build this parser."
 		end
 	else
 		ok = true
