@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.0.0...v4.1.0) (2024-05-27)
+
+
+### Features
+
+* add minimum tree-sitter cli requirement to error output ([#24](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/24)) ([221e4c5](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/221e4c5c1d07c1bbc7896c11221c5be02a2d2b42))
+
 ## [4.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v3.0.0...v4.0.0) (2024-05-17)
 
 
