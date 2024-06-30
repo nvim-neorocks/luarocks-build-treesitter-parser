@@ -111,8 +111,14 @@ function treesitter_parser.run(rockspec, no_install)
 			pcall(fs.delete, "queries")
 		end
 		fs.make_dir("queries")
+		if not fs.exists("queries") then
+			return nil, "Could not create directory: queries"
+		end
 		local queries_dir = dir.path("queries", build.lang)
 		fs.make_dir(queries_dir)
+		if not fs.exists(queries_dir) then
+			return nil, "Could not create directory: " .. queries_dir
+		end
 		for name, content in pairs(build.queries) do
 			local queries_file = fs.absolute_name(dir.path(queries_dir, name))
 			local fd = io.open(queries_file, "w+")
