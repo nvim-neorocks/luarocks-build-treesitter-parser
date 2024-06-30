@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.0...v4.1.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* **queries:** better error messages ([7ed9925](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/7ed99254397063d4cb72390ff5f4d881d1e23191))
+* **queries:** use absolute path ([9825ac1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/9825ac1f63b289cae6b2111684614daf121d535e))
+
 ## [4.1.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.0.0...v4.1.0) (2024-05-27)
 
 
