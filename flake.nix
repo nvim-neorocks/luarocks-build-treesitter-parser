@@ -46,10 +46,10 @@
         type-check = pre-commit-hooks.lib.${system}.run {
           src = self;
           hooks = {
-            lua-ls.enable = true;
-          };
-          settings = {
-            lua-ls.config = luarc;
+            lua-ls = {
+              enable = true;
+              settings.configuration = luarc;
+            };
           };
         };
 
