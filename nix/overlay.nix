@@ -226,6 +226,16 @@
           buildInputs = [
             final.tree-sitter
           ];
+          fixupPhase = ''
+            if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
+              echo "Build did not create parser/norg.so in the expected location"
+              exit 1
+            fi
+            if [ -f $out/lib/lua/5.1/parser/norg.so.dSYM ]; then
+              echo "Unwanted darwin debug symbols!"
+              exit 1
+            fi
+          '';
         }) {})
       .overrideAttrs (oa: {
         nativeBuildInputs =
