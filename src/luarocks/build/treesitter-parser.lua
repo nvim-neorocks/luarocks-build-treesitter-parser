@@ -143,11 +143,12 @@ function treesitter_parser.run(rockspec, no_install)
 	local parser_dir = dir.path(lib_dir, "parser")
 	local ok, err
 	if build_parser then
+		local parser_lib = rockspec.build.lang .. "." .. cfg.lib_extension
 		if fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
 			-- Try tree-sitter build first
 			fs.make_dir(parser_dir)
-			local parser_lib = dir.path(parser_dir, rockspec.build.lang .. "." .. cfg.lib_extension)
-			ok = execute("tree-sitter", "build", "-o", parser_lib, ".") and fs.exists(parser_lib)
+			local parser_lib_path = dir.path(parser_dir, parser_lib)
+			ok = execute("tree-sitter", "build", "-o", parser_lib_path, ".") and fs.exists(parser_lib_path)
 		end
 		if not ok and has_sources then
 			-- Fall back to builtin build
@@ -155,6 +156,13 @@ function treesitter_parser.run(rockspec, no_install)
 		elseif not ok then
 			err = "'tree-sitter build' failed. Note: tree-sitter 0.22.2 or later is required to build this parser."
 		end
+		pcall(function()
+			local dsym_file = dir.absolute_name(dir.path(parser_dir, parser_lib .. ".dSYM"))
+			if fs.exists(dsym_file) then
+				-- Try to remove macos debug symbols if they exist
+				fs.delete(dsym_file)
+			end
+		end)
 	else
 		ok = true
 	end
