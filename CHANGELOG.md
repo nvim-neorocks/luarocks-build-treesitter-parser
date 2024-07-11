@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.1...v4.1.2) (2024-07-11)
+
+
+### Bug Fixes
+
+* **darwin:** remove debug symbols (`&lt;lang&gt;.so.dSYM`) ([#29](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/29)) ([f57b899](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/f57b899d39156138c14fd95536624509ae8c20fe))
+
 ## [4.1.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.0...v4.1.1) (2024-06-30)
 
 
