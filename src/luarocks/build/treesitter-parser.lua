@@ -39,6 +39,13 @@ local function execute(...)
 	return fs.execute(...)
 end
 
+-- HACK: if a rock depends on another rock that has the same source, but in a subdirectory,
+-- luarocks will not change back to the project root.
+-- This is the case for some tree-sitter parsers, e.g. tree-sitter-markdown and
+-- tree-sitter-markdown_inline.
+-- As a workaround, we save the build root dir between builds and cd back to it if set.
+local build_root_dir
+
 ---@param rockspec table
 ---@param no_install boolean
 function treesitter_parser.run(rockspec, no_install)
@@ -64,7 +71,14 @@ function treesitter_parser.run(rockspec, no_install)
 				("'%s' is not installed.\n%s requires %s to build."):format(js_runtime, rockspec.name, js_runtime_name)
 		end
 	end
+	local cwd = fs.absolute_name(dir.path("."))
+	if build_root_dir and cwd:match("^" .. build_root_dir) then
+		-- cwd is a subdirectory of build_root_dir.
+		util.printout("Changing to directory: " .. build_root_dir)
+		fs.change_dir(build_root_dir)
+	end
 	if build.location then
+		build_root_dir = fs.absolute_name(dir.path("."))
 		util.printout("Changing to directory: " .. build.location)
 		fs.change_dir(build.location)
 	end
