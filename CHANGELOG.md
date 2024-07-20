@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.3](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.2...v4.1.3) (2024-07-20)
+
+
+### Bug Fixes
+
+* cd back to project root after build in case of another build ([49124e9](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/49124e93205c8d8096a6cf0a519fc70de4146e9a))
+
 ## [4.1.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.1...v4.1.2) (2024-07-11)
 
 
