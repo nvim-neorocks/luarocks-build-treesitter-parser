@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.5...v5.0.0) (2024-07-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Don't cd into `build.location`. Require tree-sitter CLI. ([#35](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/35))
+
+### Bug Fixes
+
+* Don't cd into `build.location`. Require tree-sitter CLI. ([#35](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/35)) ([5bfb583](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/5bfb5836ab197c406810a9f339a26834a706e648))
+
+
+### Reverts
+
+* change back to build root if luarocks changes to subdirectory ([a457651](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/a457651ff046978c2b7f68ced60dea34d6519dac))
+* use `fs.current_dir` ([b74412a](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/b74412aa4fbc80fd13aa710d22425bdcb5525774))
+
 ## [4.1.5](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.4...v4.1.5) (2024-07-20)
 
 
