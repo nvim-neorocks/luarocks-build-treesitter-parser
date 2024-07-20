@@ -11,9 +11,14 @@
         knownRockspec = "${self}/luarocks-build-treesitter-parser-scm-1.rockspec";
         src = self;
         disabled = luaOlder "5.1";
-        propagatedBuildInputs = [
-          luafilesystem
-        ];
+        propagatedBuildInputs =
+          [
+            luafilesystem
+          ]
+          ++ (with final; [
+            tree-sitter
+            gcc
+          ]);
       }) {};
 
     tree-sitter-haskell =
@@ -35,12 +40,8 @@
           };
           preBuild = ''
             # tree-sitter CLI expects to be able to create log files, etc.
-            export HOME=$(realpath .)
+            export HOME=$(mktemp -d)
           '';
-          buildInputs = with final; [
-            gcc
-            tree-sitter
-          ];
           propagatedBuildInputs = [
             luarocks-build-treesitter-parser
           ];
@@ -81,6 +82,10 @@
             luarocks-build-treesitter-parser
           ];
           disabled = luaOlder "5.1";
+          preBuild = ''
+            # tree-sitter CLI expects to be able to create log files, etc.
+            export HOME=$(mktemp -d)
+          '';
         }) {})
       .overrideAttrs (oa: {
         fixupPhase = ''
@@ -111,13 +116,16 @@
           hash = "sha256-YhmEE7I7UF83qMuldHqc/fD/no/7YuZd6CaAIaZ1now=";
         };
         buildInputs = [
-          tree-sitter
           nodejs_22
         ];
         propagatedBuildInputs = [
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
+        preBuild = ''
+          # tree-sitter CLI expects to be able to create log files, etc.
+          export HOME=$(mktemp -d)
+        '';
       }) {};
 
     tree-sitter-toml = luaself.callPackage ({
@@ -139,13 +147,16 @@
           hash = "sha256-z9MWNOBxLHBd/pVs5/QiSSGtaW+DUd7y3wZXcl3hWnk=";
         };
         buildInputs = [
-          tree-sitter
           nodejs_22
         ];
         propagatedBuildInputs = [
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
+        preBuild = ''
+          # tree-sitter CLI expects to be able to create log files, etc.
+          export HOME=$(mktemp -d)
+        '';
       }) {};
 
     tree-sitter-latex = luaself.callPackage ({
@@ -167,13 +178,16 @@
           hash = "sha256-ptUIi8cMQ4CrnqZgnzJ0rnByd78y8l607+CSPKNrLEk=";
         };
         buildInputs = [
-          tree-sitter
           nodejs_22
         ];
         propagatedBuildInputs = [
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
+        preBuild = ''
+          # tree-sitter CLI expects to be able to create log files, etc.
+          export HOME=$(mktemp -d)
+        '';
       }) {};
 
     tree-sitter-xml = luaself.callPackage ({
@@ -196,6 +210,10 @@
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
+        preBuild = ''
+          # tree-sitter CLI expects to be able to create log files, etc.
+          export HOME=$(mktemp -d)
+        '';
       }) {};
 
     tree-sitter-norg =
@@ -217,15 +235,12 @@
           };
           preBuild = ''
             # tree-sitter CLI expects to be able to create log files, etc.
-            export HOME=$(realpath .)
+            export HOME=$(mktemp -d)
           '';
           propagatedBuildInputs = [
             luarocks-build-treesitter-parser
           ];
           disabled = luaOlder "5.1";
-          buildInputs = [
-            final.tree-sitter
-          ];
           fixupPhase = ''
             if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
               echo "Build did not create parser/norg.so in the expected location"
@@ -272,9 +287,10 @@
           luarocks-build-treesitter-parser
         ];
         disabled = luaOlder "5.1";
-        buildInputs = [
-          final.tree-sitter
-        ];
+        preBuild = ''
+          # tree-sitter CLI expects to be able to create log files, etc.
+          export HOME=$(realpath .)
+        '';
       }) {};
   };
   lua5_1_base =

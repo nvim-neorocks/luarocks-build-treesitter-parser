@@ -20,6 +20,5 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "xml",
-  sources = { "src/parser.c", "src/scanner.c" },
   location = "xml",
 }
