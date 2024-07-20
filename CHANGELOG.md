@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.5](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.4...v4.1.5) (2024-07-20)
+
+
+### Bug Fixes
+
+* use `fs.current_dir` ([28053f4](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/28053f444521de82c4e55097f0e8aa3dacfc5ec4))
+
 ## [4.1.4](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v4.1.3...v4.1.4) (2024-07-20)
 
 
