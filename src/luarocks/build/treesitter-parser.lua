@@ -56,6 +56,7 @@ function treesitter_parser.run(rockspec, no_install)
 		return nil,
 			"'tree-sitter CLI' is not installed.\n" .. rockspec.name .. " requires the tree-sitter CLI to build.\n"
 	end
+	local project_root = fs.absolute_name(dir.path("."))
 	if build.generate then
 		local js_runtime = os.getenv("TREE_SITTER_JS_RUNTIME") or "node"
 		local js_runtime_name = js_runtime == "node" and "Node JS" or js_runtime
@@ -171,6 +172,10 @@ function treesitter_parser.run(rockspec, no_install)
 		local dest = dir.path(path.install_dir(rockspec.name, rockspec.version), "parser")
 		fs.make_dir(dest)
 		ok, err = fs.copy_contents(parser_dir, dest)
+	end
+	if build.location then
+		-- Change back to project root in case of another build
+		fs.change_dir(project_root)
 	end
 	return ok, err
 end
