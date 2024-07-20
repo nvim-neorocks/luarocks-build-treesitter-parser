@@ -71,14 +71,14 @@ function treesitter_parser.run(rockspec, no_install)
 				("'%s' is not installed.\n%s requires %s to build."):format(js_runtime, rockspec.name, js_runtime_name)
 		end
 	end
-	local cwd = fs.current_dir()
+	local cwd = fs.absolute_name(dir.path("."))
 	if build_root_dir and cwd:match("^" .. build_root_dir) then
 		-- cwd is a subdirectory of build_root_dir.
 		util.printout("Changing to directory: " .. build_root_dir)
 		fs.change_dir(build_root_dir)
 	end
 	if build.location then
-		build_root_dir = fs.current_dir()
+		build_root_dir = fs.absolute_name(dir.path("."))
 		util.printout("Changing to directory: " .. build.location)
 		fs.change_dir(build.location)
 	end
