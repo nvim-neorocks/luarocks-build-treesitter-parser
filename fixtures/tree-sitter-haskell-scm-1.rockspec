@@ -27,7 +27,6 @@ source = {
 build = {
   type = "treesitter-parser",
   lang = "haskell",
-  sources = { "src/parser.c", "src/scanner.c" },
   copy_directories = { "queries" },
   queries = {
     ["folds.scm"] = [==[

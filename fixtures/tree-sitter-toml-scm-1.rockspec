@@ -20,7 +20,6 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "toml",
-  sources = { "src/parser.c", "src/scanner.c" },
   generate = true,
   generate_from_json = true,
 }

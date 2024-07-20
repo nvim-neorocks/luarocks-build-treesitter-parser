@@ -49,10 +49,6 @@ build = {
   ---@type string (required) Name of the language, e.g. "haskell".
   lang = "LANG",
 
-  --- Will use `tree-sitter build` if these are unset or empty.
-  ---@type string[]? (optional) parser source files.
-  sources = { "src/parser.c", "src/scanner.c" },
-
   ---@type boolean? (optional) Won't build the parser if `false`.
   parser = true,
 

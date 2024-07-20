@@ -2,7 +2,6 @@
 local fs = require("luarocks.fs")
 local dir = require("luarocks.dir")
 local path = require("luarocks.path")
-local builtin = require("luarocks.build.builtin")
 local util = require("luarocks.util")
 local cfg = require("luarocks.core.cfg")
 
@@ -23,7 +22,6 @@ local treesitter_parser = {}
 
 ---@class TreeSitterBuildSpec: BuildSpec
 ---@field lang string
----@field sources? string[]
 ---@field parser? boolean
 ---@field libflags? string[]
 ---@field generate? boolean
@@ -40,7 +38,6 @@ local function execute(...)
 end
 
 ---@param rockspec table
----@param no_install boolean
 function treesitter_parser.run(rockspec, no_install)
 	assert(rockspec:type() == "rockspec")
 	---@cast rockspec RockSpec
@@ -50,9 +47,9 @@ function treesitter_parser.run(rockspec, no_install)
 	local build = rockspec.build
 
 	local build_parser = build.parser == nil or build.parser
-	local has_sources = type(build.sources) == "table" and #build.sources > 0
 
-	if (build.generate or not has_sources) and not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
+	-- TODO Make sure tree-sitter CLI version >= 0.22.2
+	if not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
 		return nil,
 			"'tree-sitter CLI' is not installed.\n" .. rockspec.name .. " requires the tree-sitter CLI to build.\n"
 	end
@@ -64,21 +61,19 @@ function treesitter_parser.run(rockspec, no_install)
 				("'%s' is not installed.\n%s requires %s to build."):format(js_runtime, rockspec.name, js_runtime_name)
 		end
 	end
-	if build.location then
-		util.printout("Changing to directory: " .. build.location)
-		fs.change_dir(build.location)
-	end
 	if build.generate then
 		local cmd
 		cmd = { "tree-sitter", "generate", "--no-bindings" }
 		local abi = os.getenv("TREE_SITTER_LANGUAGE_VERSION")
-		-- TODO: Check for tree-sitter CLI version
 		if abi then
 			table.insert(cmd, "--abi")
 			table.insert(cmd, abi)
 		end
 		if build.generate_from_json then
-			table.insert(cmd, "src/grammar.json")
+			local src_dir = build.location and dir.path(build.location, "src") or "src"
+			table.insert(cmd, dir.path(src_dir, "grammar.json"))
+		elseif build.location then
+			table.insert(cmd, dir.path(build.location, "grammar.js"))
 		end
 		util.printout("Generating tree-sitter sources...")
 		local cmd_str = table.concat(cmd, " ")
@@ -87,24 +82,6 @@ function treesitter_parser.run(rockspec, no_install)
 			return nil, "Failed to generate tree-sitter grammar."
 		end
 		util.printout("Done.")
-	end
-	local incdirs, is_cpp = {}, false
-	for _, source in ipairs(build.sources or {}) do
-		local source_dir = source:match("(.-)%/")
-		is_cpp = is_cpp
-			or source:match("%.cc$") ~= nil
-			or source:match("%.cpp$") ~= nil
-			or source:match("%.cxx$") ~= nil
-		if dir then
-			table.insert(incdirs, source_dir)
-		end
-	end
-	if is_cpp and not rockspec.build.libflags then
-		local prev = rockspec.variables.LIBFLAG
-		rockspec.variables.LIBFLAG = prev .. (prev and #prev > 1 and " " or "") .. "-lstdc++"
-	end
-	if rockspec.build.libflags then
-		rockspec.variables.LIBFLAG = table.concat(rockspec.build.libflags, " ")
 	end
 	if build.queries then
 		if fs.is_dir("queries") then
@@ -131,16 +108,8 @@ function treesitter_parser.run(rockspec, no_install)
 		rockspec.build.copy_directories = rockspec.build.copy_directories or {}
 		table.insert(rockspec.build.copy_directories, "queries")
 	end
-	if has_sources then
-		rockspec.build.modules = {
-			["parser." .. build.lang] = {
-				sources = build.sources,
-				incdirs = incdirs,
-			},
-		}
-	end
 	local lib_dir = path.lib_dir(rockspec.name, rockspec.version)
-	local parser_dir = dir.path(lib_dir, "parser")
+	local parser_dir = no_install and "luarocks_build" or dir.path(lib_dir, "parser")
 	local ok, err
 	if build_parser then
 		local parser_lib = rockspec.build.lang .. "." .. cfg.lib_extension
@@ -148,13 +117,15 @@ function treesitter_parser.run(rockspec, no_install)
 			-- Try tree-sitter build first
 			fs.make_dir(parser_dir)
 			local parser_lib_path = dir.path(parser_dir, parser_lib)
-			ok = execute("tree-sitter", "build", "-o", parser_lib_path, ".") and fs.exists(parser_lib_path)
+			local src_dir = build.location and build.location or fs.current_dir()
+			ok = execute("tree-sitter", "build", "-o", parser_lib_path, src_dir) and fs.exists(parser_lib_path)
 		end
-		if not ok and has_sources then
-			-- Fall back to builtin build
-			ok, err = builtin.run(rockspec, no_install)
-		elseif not ok then
-			err = "'tree-sitter build' failed. Note: tree-sitter 0.22.2 or later is required to build this parser."
+		if not ok then
+			err = [[
+'tree-sitter build' failed.
+See the build output for details.
+Note: tree-sitter 0.22.2 or later is required to build this parser.
+]]
 		end
 		pcall(function()
 			local dsym_file = dir.absolute_name(dir.path(parser_dir, parser_lib .. ".dSYM"))

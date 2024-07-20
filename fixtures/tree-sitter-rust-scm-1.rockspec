@@ -20,7 +20,6 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "rust",
-  sources = { "src/parser.c", "src/scanner.c" },
   queries = {
     ["highlights.scm"] = [[
 ;;

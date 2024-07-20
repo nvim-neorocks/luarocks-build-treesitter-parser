@@ -20,6 +20,5 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "ocamllex",
-  sources = { "src/parser.c", "src/scanner.c" },
   generate = true,
 }
