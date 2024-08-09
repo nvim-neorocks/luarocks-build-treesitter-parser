@@ -20,15 +20,4 @@ dependencies = {
 build = {
   type = "treesitter-parser",
   lang = "norg",
-  platforms = {
-    macosx = {
-      libflags = {
-        "-bundle",
-        "-undefined",
-        "dynamic_lookup",
-        "-all_load",
-        "-std=c++11",
-      },
-    },
-  },
 }

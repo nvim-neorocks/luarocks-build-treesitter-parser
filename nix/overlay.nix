@@ -230,8 +230,8 @@
           src = fetchFromGitHub {
             owner = "nvim-neorg";
             repo = "tree-sitter-norg";
-            rev = "014073fe8016d1ac440c51d22c77e3765d8f6855";
-            hash = "sha256-0wL3Pby7e4nbeVHCRfWwxZfEcAF9/s8e6Njva+lj+Rc=";
+            rev = "aa1a1a7ded81a094cc3d5cb14bea6f34b86d8688";
+            hash = "sha256-baJdvWfwUx1U2RX0G6ECaGPGZBFbWsVUhh3kYPaYeiE=";
           };
           preBuild = ''
             # tree-sitter CLI expects to be able to create log files, etc.
