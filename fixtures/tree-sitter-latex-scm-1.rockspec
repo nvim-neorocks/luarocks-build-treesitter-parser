@@ -1,3 +1,5 @@
+rockspec_format = '3.0'
+
 package = "tree-sitter-latex"
 
 version = "scm-1"
@@ -14,6 +16,9 @@ description = {
 
 dependencies = {
   "lua >= 5.1",
+}
+
+build_dependencies = {
   "luarocks-build-treesitter-parser",
 }
 
