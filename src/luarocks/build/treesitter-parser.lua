@@ -129,7 +129,7 @@ Note: tree-sitter 0.22.2 or later is required to build this parser.
 		end
 		pcall(function()
 			local dsym_file = dir.absolute_name(dir.path(parser_dir, parser_lib .. ".dSYM"))
-			if fs.exists(dsym_file) then
+			if fs.exists(dsym_file) or fs.is_dir(dsym_file) then
 				-- Try to remove macos debug symbols if they exist
 				fs.delete(dsym_file)
 			end
@@ -141,7 +141,11 @@ Note: tree-sitter 0.22.2 or later is required to build this parser.
 		-- For neovim plugin managers that do not symlink parser_dir to the rtp
 		local dest = dir.path(path.install_dir(rockspec.name, rockspec.version), "parser")
 		fs.make_dir(dest)
-		ok, err = fs.copy_contents(parser_dir, dest)
+		for _, src in pairs(fs.list_dir(parser_dir)) do
+			if src:find("%.so$") ~= nil then
+				fs.copy(dir.path(parser_dir, src), dest)
+			end
+		end
 	end
 	return ok, err
 end
