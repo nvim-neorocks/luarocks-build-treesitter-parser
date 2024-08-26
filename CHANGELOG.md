@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v5.0.1...v5.0.2) (2024-08-26)
+
+
+### Bug Fixes
+
+* **windows:** copy dll parsers to parser directory ([ff3648a](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/ff3648a4bbeac43023725bd15a2e6ead5db2c852))
+
 ## [5.0.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v5.0.0...v5.0.1) (2024-08-19)
 
 
