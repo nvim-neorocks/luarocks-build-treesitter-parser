@@ -48,6 +48,8 @@ function treesitter_parser.run(rockspec, no_install)
 
 	local build_parser = build.parser == nil or build.parser
 
+	local node_available = false
+
 	-- TODO Make sure tree-sitter CLI version >= 0.22.2
 	if not fs.is_tool_available("tree-sitter", "tree-sitter CLI") then
 		return nil,
@@ -56,9 +58,10 @@ function treesitter_parser.run(rockspec, no_install)
 	if build.generate then
 		local js_runtime = os.getenv("TREE_SITTER_JS_RUNTIME") or "node"
 		local js_runtime_name = js_runtime == "node" and "Node JS" or js_runtime
-		if not fs.is_tool_available(js_runtime, js_runtime_name) then
-			return nil,
-				("'%s' is not installed.\n%s requires %s to build."):format(js_runtime, rockspec.name, js_runtime_name)
+		if fs.is_tool_available(js_runtime, js_runtime_name) then
+			node_available = true
+		else
+			util.printout("Not able to find node, will attempt to build from grammar.json instead...")
 		end
 	end
 	if build.generate then
@@ -69,7 +72,7 @@ function treesitter_parser.run(rockspec, no_install)
 			table.insert(cmd, "--abi")
 			table.insert(cmd, abi)
 		end
-		if build.generate_from_json then
+		if node_available == false or build.generate_from_json then
 			local src_dir = build.location and dir.path(build.location, "src") or "src"
 			table.insert(cmd, dir.path(src_dir, "grammar.json"))
 		elseif build.location then
@@ -79,7 +82,18 @@ function treesitter_parser.run(rockspec, no_install)
 		local cmd_str = table.concat(cmd, " ")
 		util.printout(cmd_str)
 		if not fs.execute(cmd_str) then
-			return nil, "Failed to generate tree-sitter grammar."
+			local err = [[
+Failed to generate tree-sitter grammar.
+See the build output for details.
+Note: tree-sitter 0.20.0 or later is required to generate a tree-sitter grammar.
+]]
+			if node_available == false then
+				err = err + [[\n
+Note: this grammar _may_ generate if node is installed and/or
+using a version of tree-sitter that matches what was used when the grammar was generated.
+]]
+			end
+			return nil, err
 		end
 		util.printout("Done.")
 	end
