@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v5.0.2...v6.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* try and build with grammar.json if node is not available
+
+### Features
+
+* try and build with grammar.json if node is not available ([048a1da](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/048a1da3a0ca7216ad6c0bc901e16ccf44e4efb7))
+
 ## [5.0.2](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v5.0.1...v5.0.2) (2024-08-26)
 
 
