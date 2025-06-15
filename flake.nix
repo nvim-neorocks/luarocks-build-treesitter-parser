@@ -91,7 +91,6 @@
             tree-sitter-xml
             tree-sitter-toml
             tree-sitter-latex
-            tree-sitter-norg
             tree-sitter-html_tags
             ;
         };
@@ -109,7 +108,6 @@
             tree-sitter-xml
             tree-sitter-toml
             tree-sitter-latex
-            tree-sitter-norg
             tree-sitter-html_tags
             ;
         };

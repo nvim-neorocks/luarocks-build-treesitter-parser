@@ -39,7 +39,6 @@ end
 
 ---@param rockspec table
 function treesitter_parser.run(rockspec, no_install)
-	assert(rockspec:type() == "rockspec")
 	---@cast rockspec RockSpec
 	assert(rockspec.build.type == "treesitter-parser" or rockspec.build.type == "tree-sitter")
 	---@cast rockspec TreeSitterRockSpec
@@ -88,7 +87,8 @@ See the build output for details.
 Note: tree-sitter 0.20.0 or later is required to generate a tree-sitter grammar.
 ]]
 			if node_available == false then
-				err = err + [[\n
+				err = err
+					+ [[\n
 Note: this grammar _may_ generate if node is installed and/or
 using a version of tree-sitter that matches what was used when the grammar was generated.
 ]]
