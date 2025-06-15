@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.1](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v6.0.0...v6.0.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* compatibility with luarocks 3.12 ([#43](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/issues/43)) ([65a9a95](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/commit/65a9a958727ed278e1fe77e482c35e3a1bddeece))
+
 ## [6.0.0](https://github.com/nvim-neorocks/luarocks-build-treesitter-parser/compare/v5.0.2...v6.0.0) (2024-12-05)
 
 
