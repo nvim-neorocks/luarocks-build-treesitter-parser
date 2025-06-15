@@ -216,57 +216,6 @@
         '';
       }) {};
 
-    tree-sitter-norg =
-      (luaself.callPackage ({
-        buildLuarocksPackage,
-        fetchFromGitHub,
-        luaOlder,
-        luarocks-build-treesitter-parser,
-      }:
-        buildLuarocksPackage {
-          pname = "tree-sitter-norg";
-          version = "scm-1";
-          knownRockspec = "${self}/fixtures/tree-sitter-norg-scm-1.rockspec";
-          src = fetchFromGitHub {
-            owner = "nvim-neorg";
-            repo = "tree-sitter-norg";
-            rev = "aa1a1a7ded81a094cc3d5cb14bea6f34b86d8688";
-            hash = "sha256-baJdvWfwUx1U2RX0G6ECaGPGZBFbWsVUhh3kYPaYeiE=";
-          };
-          preBuild = ''
-            # tree-sitter CLI expects to be able to create log files, etc.
-            export HOME=$(mktemp -d)
-          '';
-          propagatedBuildInputs = [
-            luarocks-build-treesitter-parser
-          ];
-          disabled = luaOlder "5.1";
-          fixupPhase = ''
-            if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
-              echo "Build did not create parser/norg.so in the expected location"
-              exit 1
-            fi
-            if [ -f $out/lib/lua/5.1/parser/norg.so.dSYM ]; then
-              echo "Unwanted darwin debug symbols!"
-              exit 1
-            fi
-          '';
-        }) {})
-      .overrideAttrs (oa: {
-        nativeBuildInputs =
-          oa.nativeBuildInputs
-          ++ (with final;
-            lib.optionals stdenv.isDarwin [
-              clang
-            ]);
-        fixupPhase = ''
-          if [ ! -f $out/lib/lua/5.1/parser/norg.so ]; then
-            echo "Build did not create parser/norg.so in the expected location"
-            exit 1
-          fi
-        '';
-      });
-
     tree-sitter-html_tags = luaself.callPackage ({
       buildLuarocksPackage,
       fetchFromGitHub,
